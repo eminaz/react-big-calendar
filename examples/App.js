@@ -21,6 +21,8 @@ import CustomView from './demos/customView';
 import Timeslots from './demos/timeslots';
 import Dnd from './demos/dnd';
 
+import 'antd/dist/antd.css';
+
 let demoRoot = 'https://github.com/intljusticemission/react-big-calendar/tree/master/examples/demos'
 
 const Example = React.createClass({

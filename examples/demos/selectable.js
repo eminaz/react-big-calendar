@@ -1,6 +1,11 @@
 import React from 'react';
-import BigCalendar from 'react-big-calendar';
+// import BigCalendar from 'react-big-calendar';
+
+import BigCalendar from '../../src';
+
+
 import events from '../events';
+import { Popover, Button } from 'antd';
 
 const Selectable = class extends React.Component {
   constructor(p) {
@@ -18,6 +23,7 @@ const Selectable = class extends React.Component {
           Click an event to see more info, or
           drag the mouse over the calendar to select a date/time range.
         </h3>
+        <Button>Button</Button>
         <BigCalendar
           selectable
           events={events}
@@ -53,5 +59,12 @@ const Selectable = class extends React.Component {
     )
   }
 };
+
+// const WrapperComponent = (props) => {
+//   return <div style={{backgroundColor: 'red'}}>
+//     wrapper
+//     {props.children}
+//   </div>
+// }
 
 export default Selectable;

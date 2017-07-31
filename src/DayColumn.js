@@ -16,6 +16,16 @@ import getStyledEvents, { positionFromDate, startsBefore } from './utils/dayView
 
 import TimeColumn from './TimeColumn'
 
+import { Popover, Button } from 'antd';
+
+const text = <span>Title</span>;
+const content = (
+  <div>
+    <p>Content</p>
+    <p>Content</p>
+  </div>
+);
+
 function snapToSlot(date, step){
   var roundTo = 1000 * 60 * step;
   return new Date(Math.floor(date.getTime() / roundTo) * roundTo)
@@ -136,6 +146,7 @@ class DaySlot extends React.Component {
       , rtl: isRtl
       , step
       , startAccessor, endAccessor, titleAccessor } = this.props;
+      console.log(eventComponent);
 
     let EventComponent = eventComponent
 
@@ -160,32 +171,32 @@ class DaySlot extends React.Component {
       let { height, top, width, xOffset } = style
 
       return (
-        <EventWrapper event={event} key={'evt_' + idx}>
-          <div
-            style={{
-              ...xStyle,
-              top: `${top}%`,
-              height: `${height}%`,
-              [isRtl ? 'right' : 'left']: `${Math.max(0, xOffset)}%`,
-              width: `${width}%`
-            }}
-            title={label + ': ' + title }
-            onClick={(e) => this._select(event, e)}
-            className={cn('rbc-event', className, {
-              'rbc-selected': _isSelected,
-              'rbc-event-continues-earlier': continuesPrior,
-              'rbc-event-continues-later': continuesAfter
-            })}
-          >
-            <div className='rbc-event-label'>{label}</div>
-            <div className='rbc-event-content'>
-              { EventComponent
-                ? <EventComponent event={event} title={title}/>
-                : title
-              }
+        <Popover placement="right" title={text} content={content} trigger="click">
+            <div
+              style={{
+                ...xStyle,
+                top: `${top}%`,
+                height: `${height}%`,
+                [isRtl ? 'right' : 'left']: `${Math.max(0, xOffset)}%`,
+                width: `${width}%`
+              }}
+              title={label + ': ' + title }
+              onClick={(e) => this._select(event, e)}
+              className={cn('rbc-event', className, {
+                'rbc-selected': _isSelected,
+                'rbc-event-continues-earlier': continuesPrior,
+                'rbc-event-continues-later': continuesAfter
+              })}
+            >
+              <div className='rbc-event-label'>{label}</div>
+              <div className='rbc-event-content'>
+                { EventComponent
+                  ? <EventComponent event={event} title={title}/>
+                  : title
+                }
+              </div>
             </div>
-          </div>
-        </EventWrapper>
+        </Popover>
       )
     })
   };
