@@ -80,6 +80,8 @@ window.PopoverContentTemplate = ({ start, end }) => {
   console.log('inside popover ', start, end);
   return (
     <div className='new-event-popover-container'>
+      <input className='new-event-popover-input' placeholder='e.g., Measure weight 3 times a day' />
+
       <p><b className='new-event-popover-when'>When</b></p>
       <p>{`${moment(start).format('ddd, MMMM DD, hh:mm a')} - ${moment(end).format('hh mm a')}`}</p>
       <div className='new-event-popover-buttons'>

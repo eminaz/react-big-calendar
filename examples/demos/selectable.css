@@ -1,6 +1,6 @@
 .new-event-popover-container {
-  height: 10em;
-  width: 25em;
+  min-height: 20em;
+  min-width: 30em;
 }
 
 .new-event-popover-when {
@@ -16,6 +16,13 @@
 .new-event-popover-button {
   margin: 0 0.5em;
   width: 6em;
+}
+
+.new-event-popover-input {
+  margin: 1em 0;
+  width: 100%;
+  height: 3em;
+  padding: 0.5em;
 }
 
 .ant-popover-title {
