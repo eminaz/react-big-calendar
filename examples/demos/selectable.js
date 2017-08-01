@@ -37,6 +37,11 @@ const Selectable = class extends React.Component {
             if(now - this.state.lastClick > 300) {
               console.log('singleClick');
               this.setState({ lastClick: now });
+              const changeTitle = (title) => {
+                event.title = title;
+                this.forceUpdate();
+              };
+              window.PopoverContent = window.PopoverContentTemplate({ event, changeTitle });
             }
             else {
               console.log('double click ', event.title);
@@ -63,7 +68,11 @@ const Selectable = class extends React.Component {
               this.setState({
                 events: [...events, newEvent]
               });
-              window.PopoverContent = window.PopoverContentTemplate({ start, end });
+              const changeTitle = (title) => {
+                newEvent.title = title;
+                this.forceUpdate();
+              };
+              window.PopoverContent = window.PopoverContentTemplate({ event: newEvent, changeTitle });
               document.getElementById(`${start}-${end}-${title}`).click();
             }
           }
@@ -76,17 +85,24 @@ const Selectable = class extends React.Component {
 
 window.PopoverText = <span><b>Event / Task</b></span>;
 
-window.PopoverContentTemplate = ({ start, end }) => {
-  console.log('inside popover ', start, end);
+window.PopoverContentTemplate = ({ event, changeTitle }) => {
+  const { start, end } = event;
+  //console.log('inside popover ', start, end);
+  const onChangeTitle = (e) => {
+    changeTitle(e.target.value);
+  }
   return (
     <div className='new-event-popover-container'>
-      <input className='new-event-popover-input' placeholder='e.g., Measure weight 3 times a day' />
+      <input className='new-event-popover-input' type='text' defaultValue={event.title}
+        placeholder='New Event' onChange={onChangeTitle} key={Math.random()} />
 
       <p><b className='new-event-popover-when'>When</b></p>
       <p>{`${moment(start).format('ddd, MMMM DD, hh:mm a')} - ${moment(end).format('hh mm a')}`}</p>
       <div className='new-event-popover-buttons'>
         <Button className='new-event-popover-button'>Edit</Button>
-        <Button className='new-event-popover-button'>Create</Button>
+        {
+          //<Button className='new-event-popover-button'>Create</Button>
+        }
       </div>
     </div>
   );
