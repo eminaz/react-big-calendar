@@ -42,16 +42,17 @@ const Selectable = class extends React.Component {
           }}
           onClick={ (e) => console.log('click') }
           onSelectSlot={ (slotInfo) => {
-            console.log(slotInfo);
             const { start, end } = slotInfo;
+            const title = 'New Event';
             const newEvent = {
               start,
               end,
-              title: 'New Event'
+              title
             };
             this.setState({
               events: [...events, newEvent]
             });
+            document.getElementById(`${start}-${end}-${title}`).click();
           }
         }
         />
@@ -59,6 +60,13 @@ const Selectable = class extends React.Component {
     )
   }
 };
+
+window.PopoverText = <span>SomeTitle</span>;
+window.PopoverContent = (
+  <div>
+    <p>Some Content</p>
+  </div>
+);
 
 // const WrapperComponent = (props) => {
 //   return <div style={{backgroundColor: 'red'}}>

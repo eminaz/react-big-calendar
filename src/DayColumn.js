@@ -18,8 +18,8 @@ import TimeColumn from './TimeColumn'
 
 import { Popover, Button } from 'antd';
 
-const text = <span>Title</span>;
-const content = (
+const PopoverText = <span>Title</span>;
+const PopoverTextContent = (
   <div>
     <p>Content</p>
     <p>Content</p>
@@ -146,7 +146,7 @@ class DaySlot extends React.Component {
       , rtl: isRtl
       , step
       , startAccessor, endAccessor, titleAccessor } = this.props;
-      console.log(eventComponent);
+      //console.log(eventComponent);
 
     let EventComponent = eventComponent
 
@@ -157,6 +157,7 @@ class DaySlot extends React.Component {
     return styledEvents.map(({ event, style }, idx) => {
       let start = get(event, startAccessor)
       let end = get(event, endAccessor)
+      //console.log('___', start, end, event, idx);
 
       let continuesPrior = startsBefore(start, min)
       let continuesAfter = startsAfter(end, max)
@@ -171,7 +172,7 @@ class DaySlot extends React.Component {
       let { height, top, width, xOffset } = style
 
       return (
-        <Popover placement="right" title={text} content={content} trigger="click">
+        <Popover placement="right" title={PopoverText} content={PopoverContent} trigger='click' className='my-popover'>
             <div
               style={{
                 ...xStyle,
@@ -187,6 +188,7 @@ class DaySlot extends React.Component {
                 'rbc-event-continues-earlier': continuesPrior,
                 'rbc-event-continues-later': continuesAfter
               })}
+              id={`${start}-${end}-${title}`}
             >
               <div className='rbc-event-label'>{label}</div>
               <div className='rbc-event-content'>
@@ -285,7 +287,7 @@ class DaySlot extends React.Component {
     selector
       .on('select', () => {
         if (this.state.selecting) {
-          this._selectSlot({ ...this.state, action: 'select' })
+          this._selectSlot({ ...this.state, action: 'select'})
           this.setState({ selecting: false })
         }
       })
@@ -297,7 +299,7 @@ class DaySlot extends React.Component {
     this._selector = null;
   };
 
-  _selectSlot = ({ startDate, endDate, action }) => {
+  _selectSlot = ({ startDate, endDate, action, e }) => {
     let current = startDate
       , slots = [];
 
@@ -310,7 +312,8 @@ class DaySlot extends React.Component {
       slots,
       start: startDate,
       end: endDate,
-      action
+      action,
+      e
     })
   };
 
