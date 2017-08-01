@@ -32,6 +32,18 @@ const Example = React.createClass({
     };
   },
 
+  componentDidMount() {
+    document.querySelector('body').addEventListener('mousemove', (e) => {
+      if(e.which==1) {
+        console.log('mousemove');
+        window.mousemovedown = true;
+      }
+      else {
+        window.mousemovedown = false;
+      }
+    });
+  },
+
   render() {
     let selected = this.state.selected;
     let Current = {

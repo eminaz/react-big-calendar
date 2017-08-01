@@ -40,19 +40,29 @@ const Selectable = class extends React.Component {
               console.log('double click ', event.title);
             }
           }}
-          onClick={ (e) => console.log('click') }
           onSelectSlot={ (slotInfo) => {
-            const { start, end } = slotInfo;
-            const title = 'New Event';
-            const newEvent = {
-              start,
-              end,
-              title
-            };
-            this.setState({
-              events: [...events, newEvent]
-            });
-            document.getElementById(`${start}-${end}-${title}`).click();
+            const now = new Date();
+            let isDoubleClick = false;
+            if(now - this.state.lastClick > 300) {
+              this.setState({ lastClick: now });
+            }
+            else {
+              isDoubleClick = true;
+            }
+            if (window.mousemovedown || isDoubleClick) {
+              console.log('onSelectSlot');
+              const { start, end } = slotInfo;
+              const title = 'New Event';
+              const newEvent = {
+                start,
+                end,
+                title
+              };
+              this.setState({
+                events: [...events, newEvent]
+              });
+              document.getElementById(`${start}-${end}-${title}`).click();
+            }
           }
         }
         />
