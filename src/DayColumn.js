@@ -18,14 +18,6 @@ import TimeColumn from './TimeColumn'
 
 import { Popover, Button } from 'antd';
 
-const PopoverText = <span>Title</span>;
-const PopoverTextContent = (
-  <div>
-    <p>Content</p>
-    <p>Content</p>
-  </div>
-);
-
 function snapToSlot(date, step){
   var roundTo = 1000 * 60 * step;
   return new Date(Math.floor(date.getTime() / roundTo) * roundTo)
@@ -34,6 +26,8 @@ function snapToSlot(date, step){
 function startsAfter(date, max) {
   return dates.gt(dates.merge(max, date), max, 'minutes')
 }
+
+window.PopoverContent = <div></div>;
 
 class DaySlot extends React.Component {
   static propTypes = {

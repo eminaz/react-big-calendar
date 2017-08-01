@@ -1,0 +1,24 @@
+.new-event-popover-container {
+  height: 10em;
+  width: 25em;
+}
+
+.new-event-popover-when {
+  color: rgba(0,0,0,0.5);
+}
+
+.new-event-popover-buttons {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}
+
+.new-event-popover-button {
+  margin: 0 0.5em;
+  width: 6em;
+}
+
+.ant-popover-title {
+  height: 4em !important;
+  line-height: 4em !important;
+}
