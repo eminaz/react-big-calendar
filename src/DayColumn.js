@@ -166,7 +166,8 @@ class DaySlot extends React.Component {
       let { height, top, width, xOffset } = style
 
       return (
-        <Popover placement="right" title={PopoverText} content={PopoverContent} trigger='click' className='my-popover'>
+        <Popover placement="right" title={PopoverText} content={PopoverContent} trigger='click'
+          className='my-popover' onVisibleChange={ (a) => console.log('popover visibility changes ', a) }>
             <div
               style={{
                 ...xStyle,

@@ -29,3 +29,12 @@
   height: 4em !important;
   line-height: 4em !important;
 }
+
+.new-event-popover-select-1 {
+  margin: 0 1em 1em 0;
+}
+
+.new-event-popover-select-2 {
+  margin: 0 1em 1em 0;
+  width: 20em !important;
+}

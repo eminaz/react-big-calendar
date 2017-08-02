@@ -6,8 +6,9 @@ import moment from 'moment';
 
 
 import events from '../events';
-import { Popover, Button } from 'antd';
-import './selectable.css'
+import { Popover, Button, Select } from 'antd';
+const Option = Select.Option;
+import './selectable.css';
 
 const Selectable = class extends React.Component {
   constructor(p) {
@@ -41,7 +42,7 @@ const Selectable = class extends React.Component {
                 event.title = title;
                 this.forceUpdate();
               };
-              window.PopoverContent = window.PopoverContentTemplate({ event, changeTitle });
+              window.PopoverContent = <PopoverContentTemplate event={event} changeTitle={changeTitle} />;
             }
             else {
               console.log('double click ', event.title);
@@ -72,7 +73,7 @@ const Selectable = class extends React.Component {
                 newEvent.title = title;
                 this.forceUpdate();
               };
-              window.PopoverContent = window.PopoverContentTemplate({ event: newEvent, changeTitle });
+              window.PopoverContent = <PopoverContentTemplate event={newEvent} changeTitle={changeTitle} />;
               document.getElementById(`${start}-${end}-${title}`).click();
             }
           }
@@ -85,28 +86,69 @@ const Selectable = class extends React.Component {
 
 window.PopoverText = <span><b>Event / Task</b></span>;
 
-window.PopoverContentTemplate = ({ event, changeTitle }) => {
-  const { start, end } = event;
-  //console.log('inside popover ', start, end);
-  const onChangeTitle = (e) => {
-    changeTitle(e.target.value);
+const provinceData = ['Task', 'Event'];
+const cityData = {
+  Task: ['Weight Measurement', 'Take Medicine', 'Other'],
+  Event: ['Conference Call', 'Appointment', 'Other'],
+};
+const PopoverContentTemplate = class extends React.Component {
+  constructor(p) {
+    super(p);
+    this.state = {
+      cities: cityData[provinceData[0]],
+      secondCity: cityData[provinceData[0]][0]
+    }
   }
-  return (
-    <div className='new-event-popover-container'>
-      <input className='new-event-popover-input' type='text' defaultValue={event.title}
-        placeholder='New Event' onChange={onChangeTitle} key={Math.random()} />
+  handleProvinceChange = (value, e) => {
+    console.log(value, e);
+    this.setState({
+      cities: cityData[value],
+      secondCity: cityData[value][0],
+    });
+  }
+  onSecondCityChange = (value) => {
+    this.setState({
+      secondCity: value,
+    });
+  }
+  render() {
+    const provinceOptions = provinceData.map(province => <Option key={province}>{province}</Option>);
+    const cityOptions = this.state.cities.map(city => <Option key={city}>{city}</Option>);
 
-      <p><b className='new-event-popover-when'>When</b></p>
-      <p>{`${moment(start).format('ddd, MMMM DD, hh:mm a')} - ${moment(end).format('hh mm a')}`}</p>
-      <div className='new-event-popover-buttons'>
-        <Button className='new-event-popover-button'>Edit</Button>
-        {
-          //<Button className='new-event-popover-button'>Create</Button>
-        }
+    const { event, changeTitle } = this.props;
+    const { start, end } = event;
+    //console.log('inside popover ', start, end);
+    const onChangeTitle = (e) => {
+      changeTitle(e.target.value);
+    }
+    return (
+      <div className='new-event-popover-container'>
+        <input className='new-event-popover-input' type='text' defaultValue={event.title === 'New Event' ? '' : event.title}
+          placeholder='New Event' onChange={onChangeTitle} key={Math.random()} />
+
+        <div>
+          <Select defaultValue={provinceData[0]} style={{ width: 90 }} onChange={this.handleProvinceChange}
+            getPopupContainer={triggerNode => triggerNode.parentNode} className='new-event-popover-select-1' >
+            {provinceOptions}
+          </Select>
+          <Select value={this.state.secondCity} style={{ width: 90 }} onChange={this.onSecondCityChange}
+            getPopupContainer={triggerNode => triggerNode.parentNode} className='new-event-popover-select-2' >
+            {cityOptions}
+          </Select>
+        </div>
+
+        <p><b className='new-event-popover-when'>When</b></p>
+        <p>{`${moment(start).format('ddd, MMMM DD, hh:mm a')} - ${moment(end).format('hh mm a')}`}</p>
+        <div className='new-event-popover-buttons'>
+          <Button className='new-event-popover-button'>Edit</Button>
+          {
+            //<Button className='new-event-popover-button'>Create</Button>
+          }
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+};
 
 // const WrapperComponent = (props) => {
 //   return <div style={{backgroundColor: 'red'}}>
