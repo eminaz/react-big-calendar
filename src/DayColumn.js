@@ -82,6 +82,23 @@ class DaySlot extends React.Component {
       this._teardownSelectable();
   }
 
+  onVisibleChange(event, isVisible) {
+    console.log('popover visibility changes ', isVisible, event);
+    if (isVisible) {
+      this.keyDownHandlerWithEvent = this.keyDownHandler.bind(this, event);
+      window.addEventListener('keydown', this.keyDownHandlerWithEvent, false);
+    }
+    else {
+      window.removeEventListener('keydown', this.keyDownHandlerWithEvent, false);
+    }
+  }
+
+  keyDownHandler(calendarEvent, e) {
+    if (e.which === 8 || e.which === 13) {
+      window.removeTask && window.removeTask(calendarEvent);
+    }
+  }
+
   render() {
     const {
       min,
@@ -167,7 +184,7 @@ class DaySlot extends React.Component {
 
       return (
         <Popover placement="right" title={PopoverText} content={PopoverContent} trigger='click'
-          className='my-popover' onVisibleChange={ (a) => console.log('popover visibility changes ', a) }>
+          className='my-popover' onVisibleChange={this.onVisibleChange.bind(this, event)}>
             <div
               style={{
                 ...xStyle,

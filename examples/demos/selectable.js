@@ -24,25 +24,33 @@ const Selectable = class extends React.Component {
   }
   componentDidMount() {
     this.convertTasks();
+    window.removeTask = (event) => {
+      const { start, end, title, id } = event;
+      let events = _.cloneDeep(this.state.events);
+      events = events.filter( (e) => e.id !== event.id);
+      console.log('window.removeTask ', start, end, title, id, events.length);
+      this.setState({ events });
+    };
   }
   convertTasks () {
     let events = _.cloneDeep(this.state.events);
     events.forEach( (event) => {
       if (event.meta) {
         event.meta.forEach( (item) => {
-          this.addTask({ event, item, events });
+          this._addTask({ event, item, events });
         });
       }
     });
     this.setState({ events });
   }
-  addTask({ event, item, events }) {
+  _addTask({ event, item, events }) {
     const { type, category } = event;
     let currentDate = moment(startDate);
     while (currentDate < endDate) {
       const newTask = {
         type,
         category,
+        id: Math.random(),
         title: category,
         start: new Date(currentDate + item.after),
         end: new Date(currentDate + item.before)
@@ -95,6 +103,7 @@ const Selectable = class extends React.Component {
               const { start, end } = slotInfo;
               const title = 'New Event';
               const newEvent = {
+                id: Math.random(),
                 start,
                 end,
                 title
