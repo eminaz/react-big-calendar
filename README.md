@@ -18,7 +18,7 @@ Include `react-big-calendar/lib/css/react-big-calendar.css` for styles.
 * Clone this repository
 * Retrieve dependencies: `npm install`
 * Start: `npm run examples`
-* Open [localhost:3001/examples/index.html](http://localhost:3001/examples/index.html).
+* Open [localhost:3002/examples/index.html](http://localhost:3002/examples/index.html).
 
 ### Localization and Date Formatting
 

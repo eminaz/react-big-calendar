@@ -123,5 +123,50 @@ export default [
     'end': new Date(2015, 3, 13, 20, 30, 0),
     'type': 'Task',
     'category': 'Take Medicine'
+  },
+  {
+    'type': 'Task',
+    'category': 'Heart Rate Measurement',
+     "meta":[
+        {
+           "units":[
+              "day"
+           ],
+           "after":28800000,
+           "meta":[
+
+           ],
+           "before":36000000,
+           "data":{
+              "target":1
+           }
+        },
+        {
+           "units":[
+              "day"
+           ],
+           "after":39600000,
+           "meta":[
+
+           ],
+           "before":46800000,
+           "data":{
+              "target":1
+           }
+        },
+        {
+           "units":[
+              "day"
+           ],
+           "after":55800000,
+           "meta":[
+
+           ],
+           "before":61200000,
+           "data":{
+              "target":1
+           }
+        }
+     ]
   }
 ]

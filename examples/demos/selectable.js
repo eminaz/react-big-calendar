@@ -9,15 +9,48 @@ import events from '../events';
 import { Popover, Button, Select } from 'antd';
 const Option = Select.Option;
 import './selectable.css';
+import _ from 'lodash';
+
+const startDate = moment('2015-04-15');
+const endDate = moment('2015-04-17');
 
 const Selectable = class extends React.Component {
   constructor(p) {
-      super(p);
-      this.state = {
-        events,
-        lastClick: new Date()
-      }
+    super(p);
+    this.state = {
+      events,
+      lastClick: new Date()
     }
+  }
+  componentDidMount() {
+    this.convertTasks();
+  }
+  convertTasks () {
+    let events = _.cloneDeep(this.state.events);
+    events.forEach( (event) => {
+      if (event.meta) {
+        event.meta.forEach( (item) => {
+          this.addTask({ event, item, events });
+        });
+      }
+    });
+    this.setState({ events });
+  }
+  addTask({ event, item, events }) {
+    const { type, category } = event;
+    let currentDate = moment(startDate);
+    while (currentDate < endDate) {
+      const newTask = {
+        type,
+        category,
+        title: category,
+        start: new Date(currentDate + item.after),
+        end: new Date(currentDate + item.before)
+      };
+      events.push(newTask);
+      currentDate = currentDate.add(1, 'day');
+    }
+  }
   render(){
     const events = this.state.events;
     return (
@@ -38,11 +71,11 @@ const Selectable = class extends React.Component {
             if(now - this.state.lastClick > 300) {
               console.log('singleClick');
               this.setState({ lastClick: now });
-              const changeTitle = (title) => {
-                event.title = title;
-                this.forceUpdate();
-              };
-              window.PopoverContent = <PopoverContentTemplate event={event} changeTitle={changeTitle} />;
+              // const changeTitle = (title) => {
+              //   event.title = title;
+              //   this.forceUpdate();
+              // };
+              window.PopoverContent = <PopoverContentTemplate event={event} forceUpdate={this.forceUpdate} />;
             }
             else {
               console.log('double click ', event.title);
@@ -69,11 +102,14 @@ const Selectable = class extends React.Component {
               this.setState({
                 events: [...events, newEvent]
               });
-              const changeTitle = (title) => {
-                newEvent.title = title;
+              // const changeTitle = (title) => {
+              //   newEvent.title = title;
+              //   this.forceUpdate();
+              // };
+              const changeEvent = () => {
                 this.forceUpdate();
-              };
-              window.PopoverContent = <PopoverContentTemplate event={newEvent} changeTitle={changeTitle} />;
+              }
+              window.PopoverContent = <PopoverContentTemplate event={newEvent} changeEvent={changeEvent} />;
               document.getElementById(`${start}-${end}-${title}`).click();
             }
           }
@@ -98,33 +134,37 @@ const PopoverContentTemplate = class extends React.Component {
       cities: cityData[provinceData[0]],
       secondCity: cityData[provinceData[0]][0]
     }
+    this.handleProvinceChange = this.handleProvinceChange.bind(this);
+    this.onSecondCityChange = this.onSecondCityChange.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
   }
-  handleProvinceChange = (value, e) => {
+  handleProvinceChange(value, e) {
     console.log(value, e);
     this.setState({
       cities: cityData[value],
       secondCity: cityData[value][0],
     });
   }
-  onSecondCityChange = (value) => {
+  onSecondCityChange(value) {
     this.setState({
       secondCity: value,
     });
+  }
+  onChangeTitle(e) {
+    this.props.event.title = e.target.value;
+    this.props.forceUpdate();
   }
   render() {
     const provinceOptions = provinceData.map(province => <Option key={province}>{province}</Option>);
     const cityOptions = this.state.cities.map(city => <Option key={city}>{city}</Option>);
 
-    const { event, changeTitle } = this.props;
+    const { event } = this.props;
     const { start, end } = event;
     //console.log('inside popover ', start, end);
-    const onChangeTitle = (e) => {
-      changeTitle(e.target.value);
-    }
     return (
       <div className='new-event-popover-container'>
         <input className='new-event-popover-input' type='text' defaultValue={event.title === 'New Event' ? '' : event.title}
-          placeholder='New Event' onChange={onChangeTitle} key={Math.random()} />
+          placeholder='New Event' onChange={this.onChangeTitle} key={Math.random()} />
 
         <div>
           <Select defaultValue={provinceData[0]} style={{ width: 90 }} onChange={this.handleProvinceChange}
