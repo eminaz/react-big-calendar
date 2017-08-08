@@ -6,6 +6,7 @@ import { accessor, elementType } from './utils/propTypes';
 import { accessor as get } from './utils/accessors';
 
 import { Popover } from 'antd';
+import calendarClassMap from './utils/calendarClassMap';
 
 let propTypes = {
   event: PropTypes.object.isRequired,
@@ -60,9 +61,7 @@ class EventCell extends React.Component {
               'rbc-event-allday': isAllDay || dates.diff(start, dates.ceil(end, 'day'), 'day') > 1,
               'rbc-event-continues-prior': continuesPrior,
               'rbc-event-continues-after': continuesAfter,
-              'rbc-event-weight': event.category === 'Weight Measurement',
-              'rbc-event-heartrate': event.category === 'Heart Rate Measurement',
-              'rbc-event-medicine': event.category === 'Take Medicine',
+              ...calendarClassMap(event)
             })}
             onClick={(e) => onSelect(event, e)}
           >

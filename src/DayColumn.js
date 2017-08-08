@@ -17,6 +17,7 @@ import getStyledEvents, { positionFromDate, startsBefore } from './utils/dayView
 import TimeColumn from './TimeColumn'
 
 import { Popover } from 'antd';
+import calendarClassMap from './utils/calendarClassMap';
 
 function snapToSlot(date, step){
   var roundTo = 1000 * 60 * step;
@@ -199,9 +200,7 @@ class DaySlot extends React.Component {
                 'rbc-selected': _isSelected,
                 'rbc-event-continues-earlier': continuesPrior,
                 'rbc-event-continues-later': continuesAfter,
-                'rbc-event-weight': event.category === 'Weight Measurement',
-                'rbc-event-heartrate': event.category === 'Heart Rate Measurement',
-                'rbc-event-medicine': event.category === 'Take Medicine',
+                ...calendarClassMap(event)
               })}
               id={event.id}
             >
