@@ -64,6 +64,7 @@ class EventCell extends React.Component {
               ...calendarClassMap(event)
             })}
             onClick={(e) => onSelect(event, e)}
+            id={event.id}
           >
             <div className='rbc-event-content' title={title}>
               { Event
