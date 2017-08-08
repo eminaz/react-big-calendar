@@ -28,12 +28,14 @@ const Selectable = class extends React.Component {
     window.removeTask = this.removeTask.bind(this);
   }
   removeTask(event) {
+    // fix the bug that after removing an event, the popover appears for the adjacent events
+    document.querySelector('.ant-popover:not(.ant-popover-hidden)') && document.querySelector('.ant-popover:not(.ant-popover-hidden)').classList.add('ant-popover-hidden');
+    document.querySelector('.ant-popover-open').click();
+
     const { start, end, title, id } = event;
     let events = _.cloneDeep(this.state.events);
     events = events.filter( (e) => e.id !== event.id);
     this.setState({ events });
-    document.querySelector('.ant-popover:not(.ant-popover-hidden)') && document.querySelector('.ant-popover:not(.ant-popover-hidden)').classList.add('ant-popover-hidden');
-    document.querySelector('.ant-popover-open').click();
     console.log('window.removeTask ', start, end, title, id, events.length);
   }
   convertTasks () {
@@ -104,7 +106,7 @@ const Selectable = class extends React.Component {
               const title = 'New Event';
               const id = Math.random();
               const newEvent = {
-                id: Math.random()
+                id,
                 start,
                 end,
                 title
