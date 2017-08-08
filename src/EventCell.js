@@ -26,6 +26,23 @@ let propTypes = {
 }
 
 class EventCell extends React.Component {
+  onVisibleChange(event, isVisible) {
+    console.log('popover visibility changes ', isVisible, event);
+    if (isVisible) {
+      this.keyDownHandlerWithEvent = this.keyDownHandler.bind(this, event);
+      window.addEventListener('keydown', this.keyDownHandlerWithEvent, false);
+    }
+    else {
+      window.removeEventListener('keydown', this.keyDownHandlerWithEvent, false);
+    }
+  }
+
+  keyDownHandler(calendarEvent, e) {
+    if (e.which === 8 || e.which === 13) {
+      window.removeTask && window.removeTask(calendarEvent);
+    }
+  }
+
   render() {
     let {
         className
@@ -53,7 +70,7 @@ class EventCell extends React.Component {
     return (
       <EventWrapper event={event}>
         <Popover title={PopoverText} content={PopoverContent}  trigger='click' placement="right"
-          className='my-popover'>
+          className='my-popover' onVisibleChange={this.onVisibleChange.bind(this, event)}>
           <div
             style={{...props.style, ...style}}
             className={cn('rbc-event', className, xClassName, {
