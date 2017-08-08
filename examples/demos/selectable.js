@@ -20,7 +20,8 @@ const Selectable = class extends React.Component {
     this.state = {
       events,
       lastClick: new Date()
-    }
+    };
+    this.calendarUpdate = this.forceUpdate.bind(this);
   }
   componentDidMount() {
     this.convertTasks();
@@ -80,7 +81,7 @@ const Selectable = class extends React.Component {
             if(now - this.state.lastClick > 300) {
               console.log('singleClick');
               this.setState({ lastClick: now });
-              window.PopoverContent = <PopoverContentTemplate event={event} calendarUpdate={this.forceUpdate.bind(this)} />;
+              window.PopoverContent = <PopoverContentTemplate event={event} calendarUpdate={this.calendarUpdate} />;
             }
             else {
               console.log('double click ', event.title);
@@ -108,7 +109,7 @@ const Selectable = class extends React.Component {
               this.setState({
                 events: [...events, newEvent]
               });
-              window.PopoverContent = <PopoverContentTemplate event={newEvent} calendarUpdate={this.forceUpdate.bind(this)} />;
+              window.PopoverContent = <PopoverContentTemplate event={newEvent} calendarUpdate={this.calendarUpdate} />;
               document.getElementById(`${start}-${end}-${title}`).click();
             }
           }
