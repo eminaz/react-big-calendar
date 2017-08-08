@@ -116,7 +116,7 @@ const Selectable = class extends React.Component {
                 events: [...events, newEvent]
               });
               window.PopoverContent = <PopoverContentTemplate event={newEvent} calendarUpdate={this.calendarUpdate} />;
-              document.getElementById(`${start}-${end}-${title}`).click();
+              document.getElementById(id).click();
             }
           }
         }

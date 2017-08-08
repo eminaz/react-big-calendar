@@ -203,7 +203,7 @@ class DaySlot extends React.Component {
                 'rbc-event-heartrate': event.category === 'Heart Rate Measurement',
                 'rbc-event-medicine': event.category === 'Take Medicine',
               })}
-              id={`${start}-${end}-${title}`}
+              id={event.id}
             >
               <div className='rbc-event-label'>{label}</div>
               <div className='rbc-event-content'>
