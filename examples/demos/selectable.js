@@ -31,8 +31,10 @@ const Selectable = class extends React.Component {
     const { start, end, title, id } = event;
     let events = _.cloneDeep(this.state.events);
     events = events.filter( (e) => e.id !== event.id);
-    console.log('window.removeTask ', start, end, title, id, events.length);
     this.setState({ events });
+    document.querySelector('.ant-popover:not(.ant-popover-hidden)') && document.querySelector('.ant-popover:not(.ant-popover-hidden)').classList.add('ant-popover-hidden');
+    document.querySelector('.ant-popover-open').click();
+    console.log('window.removeTask ', start, end, title, id, events.length);
   }
   convertTasks () {
     let events = _.cloneDeep(this.state.events);
@@ -100,8 +102,9 @@ const Selectable = class extends React.Component {
               console.log('onSelectSlot');
               const { start, end } = slotInfo;
               const title = 'New Event';
+              const id = Math.random();
               const newEvent = {
-                id: Math.random(),
+                id: Math.random()
                 start,
                 end,
                 title
