@@ -80,11 +80,7 @@ const Selectable = class extends React.Component {
             if(now - this.state.lastClick > 300) {
               console.log('singleClick');
               this.setState({ lastClick: now });
-              // const changeTitle = (title) => {
-              //   event.title = title;
-              //   this.forceUpdate();
-              // };
-              window.PopoverContent = <PopoverContentTemplate event={event} forceUpdate={this.forceUpdate} />;
+              window.PopoverContent = <PopoverContentTemplate event={event} calendarUpdate={this.forceUpdate.bind(this)} />;
             }
             else {
               console.log('double click ', event.title);
@@ -112,14 +108,7 @@ const Selectable = class extends React.Component {
               this.setState({
                 events: [...events, newEvent]
               });
-              // const changeTitle = (title) => {
-              //   newEvent.title = title;
-              //   this.forceUpdate();
-              // };
-              const changeEvent = () => {
-                this.forceUpdate();
-              }
-              window.PopoverContent = <PopoverContentTemplate event={newEvent} changeEvent={changeEvent} />;
+              window.PopoverContent = <PopoverContentTemplate event={newEvent} calendarUpdate={this.forceUpdate.bind(this)} />;
               document.getElementById(`${start}-${end}-${title}`).click();
             }
           }
@@ -162,7 +151,7 @@ const PopoverContentTemplate = class extends React.Component {
   }
   onChangeTitle(e) {
     this.props.event.title = e.target.value;
-    this.props.forceUpdate();
+    this.props.calendarUpdate();
   }
   render() {
     const provinceOptions = provinceData.map(province => <Option key={province}>{province}</Option>);
