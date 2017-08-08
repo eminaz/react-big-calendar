@@ -47,8 +47,24 @@ export default [
     'id': 6,
     'title': 'Conference',
     'start': new Date(2015, 3, 11),
-    'end': new Date(2015, 3, 13),
+    'end': new Date(2015, 3, 15),
     desc: 'Big conference for important people',
+    'type': 'Event',
+    'category': 'Other'
+  },
+  {
+    'id': 6.1,
+    'title': 'Take Medicine',
+    'start': new Date(2015, 3, 11),
+    'end': new Date(2015, 3, 13),
+    'type': 'Task',
+    'category': 'Take Medicine'
+  },
+  {
+    'id': 6.2,
+    'title': 'Meeting',
+    'start': new Date(2015, 3, 11),
+    'end': new Date(2015, 3, 13),
     'type': 'Event',
     'category': 'Other'
   },

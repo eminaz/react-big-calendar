@@ -16,7 +16,7 @@ import getStyledEvents, { positionFromDate, startsBefore } from './utils/dayView
 
 import TimeColumn from './TimeColumn'
 
-import { Popover, Button } from 'antd';
+import { Popover } from 'antd';
 
 function snapToSlot(date, step){
   var roundTo = 1000 * 60 * step;
@@ -183,7 +183,7 @@ class DaySlot extends React.Component {
       let { height, top, width, xOffset } = style
 
       return (
-        <Popover placement="right" title={PopoverText} content={PopoverContent} trigger='click'
+        <Popover title={PopoverText} content={PopoverContent} trigger='click' placement='right'
           className='my-popover' onVisibleChange={this.onVisibleChange.bind(this, event)}>
             <div
               style={{
