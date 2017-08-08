@@ -24,13 +24,14 @@ const Selectable = class extends React.Component {
   }
   componentDidMount() {
     this.convertTasks();
-    window.removeTask = (event) => {
-      const { start, end, title, id } = event;
-      let events = _.cloneDeep(this.state.events);
-      events = events.filter( (e) => e.id !== event.id);
-      console.log('window.removeTask ', start, end, title, id, events.length);
-      this.setState({ events });
-    };
+    window.removeTask = this.removeTask.bind(this);
+  }
+  removeTask(event) {
+    const { start, end, title, id } = event;
+    let events = _.cloneDeep(this.state.events);
+    events = events.filter( (e) => e.id !== event.id);
+    console.log('window.removeTask ', start, end, title, id, events.length);
+    this.setState({ events });
   }
   convertTasks () {
     let events = _.cloneDeep(this.state.events);
