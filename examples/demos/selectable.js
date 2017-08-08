@@ -100,8 +100,9 @@ const Selectable = class extends React.Component {
             else {
               isDoubleClick = true;
             }
+            // only create new event when there is selection or double click
             if (window.mousemovedown || isDoubleClick) {
-              console.log('onSelectSlot');
+              console.log('onSelectSlot ', slotInfo);
               const { start, end } = slotInfo;
               const title = 'New Event';
               const id = Math.random();

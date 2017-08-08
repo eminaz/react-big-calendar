@@ -3,42 +3,51 @@ import moment from 'moment';
 import { Button, Select } from 'antd';
 const Option = Select.Option;
 
-const provinceData = ['Task', 'Event'];
-const cityData = {
-  Task: ['Weight Measurement', 'Take Medicine', 'Other'],
+const typeData = ['Task', 'Event'];
+const categoryData = {
+  Task: ['Weight Measurement', 'Heart Rate Measurement', 'Take Medicine', 'Other'],
   Event: ['Conference Call', 'Appointment', 'Other'],
 };
 
 const PopoverContentTemplate = class extends React.Component {
   constructor(p) {
     super(p);
+    const initialType = this.props.event.type || typeData[0];
+    const initialCategory = this.props.event.category || categoryData[initialType][0];
     this.state = {
-      cities: cityData[provinceData[0]],
-      secondCity: cityData[provinceData[0]][0]
+      categories: categoryData[initialType],
+      selectedCategory: initialCategory
     }
-    this.handleProvinceChange = this.handleProvinceChange.bind(this);
-    this.onSecondCityChange = this.onSecondCityChange.bind(this);
+    this.props.event.type = initialType;
+    this.props.event.category = initialCategory;
+
+    this.onChangeType = this.onChangeType.bind(this);
+    this.onChangeCategory = this.onChangeCategory.bind(this);
     this.onChangeTitle = this.onChangeTitle.bind(this);
   }
-  handleProvinceChange(value, e) {
-    console.log(value, e);
+  onChangeType(value) {
     this.setState({
-      cities: cityData[value],
-      secondCity: cityData[value][0],
+      categories: categoryData[value],
+      selectedCategory: categoryData[value][0],
     });
+    this.props.event.type = value;
+    this.props.event.category = categoryData[value][0];
+    this.props.calendarUpdate();
   }
-  onSecondCityChange(value) {
+  onChangeCategory(value) {
     this.setState({
-      secondCity: value,
+      selectedCategory: value,
     });
+    this.props.event.category = value;
+    this.props.calendarUpdate();
   }
   onChangeTitle(e) {
     this.props.event.title = e.target.value;
     this.props.calendarUpdate();
   }
   render() {
-    const provinceOptions = provinceData.map(province => <Option key={province}>{province}</Option>);
-    const cityOptions = this.state.cities.map(city => <Option key={city}>{city}</Option>);
+    const typeOptions = typeData.map(type => <Option key={type}>{type}</Option>);
+    const categoryOptions = this.state.categories.map(category => <Option key={category}>{category}</Option>);
 
     const { event } = this.props;
     const { start, end } = event;
@@ -49,13 +58,13 @@ const PopoverContentTemplate = class extends React.Component {
           placeholder='New Event' onChange={this.onChangeTitle} key={Math.random()} />
 
         <div>
-          <Select defaultValue={provinceData[0]} style={{ width: 90 }} onChange={this.handleProvinceChange}
+          <Select defaultValue={typeData[0]} style={{ width: 90 }} onChange={this.onChangeType}
             getPopupContainer={triggerNode => triggerNode.parentNode} className='new-event-popover-select-1' >
-            {provinceOptions}
+            {typeOptions}
           </Select>
-          <Select value={this.state.secondCity} style={{ width: 90 }} onChange={this.onSecondCityChange}
+          <Select value={this.state.selectedCategory} style={{ width: 90 }} onChange={this.onChangeCategory}
             getPopupContainer={triggerNode => triggerNode.parentNode} className='new-event-popover-select-2' >
-            {cityOptions}
+            {categoryOptions}
           </Select>
         </div>
 
