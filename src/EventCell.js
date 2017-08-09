@@ -6,7 +6,7 @@ import { accessor, elementType } from './utils/propTypes';
 import { accessor as get } from './utils/accessors';
 
 import PopoverWrapper from './utils/PopoverWrapperComponent';
-import calendarClassMap, { CalendarHelperClass } from './utils/calendarClassMap';
+import calendarClassMap from './utils/calendarClassMap';
 
 let propTypes = {
   event: PropTypes.object.isRequired,
