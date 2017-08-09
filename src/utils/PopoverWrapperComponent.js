@@ -38,11 +38,16 @@ class PopoverWrapper extends React.Component {
     }
   }
   render() {
+    const { connectDragSource, children } = this.props;
     return (
-      <Popover title={PopoverText} content={PopoverContent}  trigger='click' placement="right"
-        className='my-popover' onVisibleChange={this.onVisibleChange}>
-        {this.props.children}
-      </Popover>
+      <div>
+        <Popover title={PopoverText} content={PopoverContent}  trigger='click' placement="right"
+          className='my-popover' onVisibleChange={this.onVisibleChange}>
+          {
+            connectDragSource ? connectDragSource(children) : children
+          }
+        </Popover>
+      </div>
     );
   }
 };

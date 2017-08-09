@@ -35,12 +35,16 @@ class DraggableEventWrapper extends React.Component {
       className: cn(
         children.props.className,
         isDragging && 'rbc-addons-dnd-dragging'
-      )
+      ),
+      connectDragSource
     })
 
     return (
       <EventWrapper event={event}>
-        {connectDragSource(children)}
+        {
+          //connectDragSource(children)
+          children
+        }
       </EventWrapper>
     );
   }

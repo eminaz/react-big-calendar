@@ -168,34 +168,36 @@ class DaySlot extends React.Component {
       let { height, top, width, xOffset } = style
 
       return (
-        <PopoverWrapper event={event}>
-            <div
-              style={{
-                ...xStyle,
-                top: `${top}%`,
-                height: `${height}%`,
-                [isRtl ? 'right' : 'left']: `${Math.max(0, xOffset)}%`,
-                width: `${width}%`
-              }}
-              title={label + ': ' + title }
-              onClick={(e) => this._select(event, e)}
-              className={cn('rbc-event', className, {
-                'rbc-selected': _isSelected,
-                'rbc-event-continues-earlier': continuesPrior,
-                'rbc-event-continues-later': continuesAfter,
-                ...calendarClassMap(event)
-              })}
-              id={event.id}
-            >
-              <div className='rbc-event-label'>{label}</div>
-              <div className='rbc-event-content'>
-                { EventComponent
-                  ? <EventComponent event={event} title={title}/>
-                  : title
-                }
+        <EventWrapper event={event}>
+          <PopoverWrapper event={event} {...this.props}>
+              <div
+                style={{
+                  ...xStyle,
+                  top: `${top}%`,
+                  height: `${height}%`,
+                  [isRtl ? 'right' : 'left']: `${Math.max(0, xOffset)}%`,
+                  width: `${width}%`
+                }}
+                title={label + ': ' + title }
+                onClick={(e) => this._select(event, e)}
+                className={cn('rbc-event', className, {
+                  'rbc-selected': _isSelected,
+                  'rbc-event-continues-earlier': continuesPrior,
+                  'rbc-event-continues-later': continuesAfter,
+                  ...calendarClassMap(event)
+                })}
+                id={event.id}
+              >
+                <div className='rbc-event-label'>{label}</div>
+                <div className='rbc-event-content'>
+                  { EventComponent
+                    ? <EventComponent event={event} title={title}/>
+                    : title
+                  }
+                </div>
               </div>
-            </div>
-        </PopoverWrapper>
+          </PopoverWrapper>
+        </EventWrapper>
       )
     })
   };
