@@ -26,6 +26,7 @@ const Selectable = class extends React.Component {
   componentDidMount() {
     this.convertTasks();
     window.removeTask = this.removeTask.bind(this);
+    window.pasteTask = this.pasteTask.bind(this);
   }
   removeTask(event) {
     // fix the bug that after removing an event, the popover appears for the adjacent events
@@ -47,6 +48,20 @@ const Selectable = class extends React.Component {
         });
       }
     });
+    this.setState({ events });
+  }
+  pasteTask(date, event) {
+    const events = _.cloneDeep(this.state.events);
+    const dayDifferenceStart = (moment(date) - moment(moment(event.start).format('YYYY-MM-DD'))) / 86400000;
+    const dayDifferenceEnd = (moment(date) - moment(moment(event.end).format('YYYY-MM-DD'))) / 86400000;
+
+    const newEvent = {
+      ...event,
+      start: new Date(moment(event.start).add(dayDifferenceStart, 'day')),
+      end: new Date(moment(event.end).add(dayDifferenceEnd, 'day')),
+      id: Math.random()
+    }
+    events.push(newEvent);
     this.setState({ events });
   }
   _addTask({ event, item, events }) {

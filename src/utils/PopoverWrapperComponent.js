@@ -29,7 +29,7 @@ class PopoverWrapper extends React.Component {
     }
     if (this.pressedKeys.has(91) && this.pressedKeys.has(67)) {
       window.copiedEvent = this.props.event;
-      console.log('event copied ', window.copiedEvent);
+      //console.log('event copied ', window.copiedEvent);
     }
   }
   keyUpHandler(e) {

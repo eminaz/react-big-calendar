@@ -109,7 +109,8 @@ class DaySlot extends React.Component {
         {...props}
         className={cn(
           'rbc-day-slot',
-          dates.isToday(max) && 'rbc-today'
+          dates.isToday(max) && 'rbc-today',
+          JSON.stringify(min)
         )}
         now={now}
         min={min}

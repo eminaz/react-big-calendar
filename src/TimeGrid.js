@@ -22,6 +22,8 @@ import { accessor as get } from './utils/accessors';
 
 import { inRange, sortEvents, segStyle } from './utils/eventLevels';
 
+import TimeGridWrapper from './utils/TimeGridWrapperComponent';
+
 export default class TimeGrid extends Component {
 
   static propTypes = {
@@ -176,6 +178,7 @@ export default class TimeGrid extends Component {
 
     return (
       <div className='rbc-time-view'>
+        <TimeGridWrapper>
 
         {this.renderHeader(range, allDayEvents, width)}
 
@@ -193,6 +196,7 @@ export default class TimeGrid extends Component {
           {this.renderEvents(range, rangeEvents, this.props.now)}
 
         </div>
+        </TimeGridWrapper>
       </div>
     );
   }
