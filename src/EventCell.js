@@ -5,8 +5,8 @@ import dates from './utils/dates';
 import { accessor, elementType } from './utils/propTypes';
 import { accessor as get } from './utils/accessors';
 
-import { Popover } from 'antd';
-import calendarClassMap from './utils/calendarClassMap';
+import PopoverWrapper from './utils/PopoverWrapperComponent';
+import calendarClassMap, { CalendarHelperClass } from './utils/calendarClassMap';
 
 let propTypes = {
   event: PropTypes.object.isRequired,
@@ -26,23 +26,6 @@ let propTypes = {
 }
 
 class EventCell extends React.Component {
-  onVisibleChange(event, isVisible) {
-    console.log('popover visibility changes ', isVisible, event);
-    if (isVisible) {
-      this.keyDownHandlerWithEvent = this.keyDownHandler.bind(this, event);
-      window.addEventListener('keydown', this.keyDownHandlerWithEvent, false);
-    }
-    else {
-      window.removeEventListener('keydown', this.keyDownHandlerWithEvent, false);
-    }
-  }
-
-  keyDownHandler(calendarEvent, e) {
-    if (e.which === 8 || e.which === 13) {
-      window.removeTask && window.removeTask(calendarEvent);
-    }
-  }
-
   render() {
     let {
         className
@@ -66,11 +49,9 @@ class EventCell extends React.Component {
 
     if (eventPropGetter)
       var { style, className: xClassName } = eventPropGetter(event, start, end, selected);
-
     return (
       <EventWrapper event={event}>
-        <Popover title={PopoverText} content={PopoverContent}  trigger='click' placement="right"
-          className='my-popover' onVisibleChange={this.onVisibleChange.bind(this, event)}>
+        <PopoverWrapper event={event}>
           <div
             style={{...props.style, ...style}}
             className={cn('rbc-event', className, xClassName, {
@@ -90,7 +71,7 @@ class EventCell extends React.Component {
               }
             </div>
           </div>
-        </Popover>
+        </PopoverWrapper>
     </EventWrapper>
     );
   }

@@ -16,7 +16,7 @@ import getStyledEvents, { positionFromDate, startsBefore } from './utils/dayView
 
 import TimeColumn from './TimeColumn'
 
-import { Popover } from 'antd';
+import PopoverWrapper from './utils/PopoverWrapperComponent';
 import calendarClassMap from './utils/calendarClassMap';
 
 function snapToSlot(date, step){
@@ -81,23 +81,6 @@ class DaySlot extends React.Component {
       this._selectable();
     if (!nextProps.selectable && this.props.selectable)
       this._teardownSelectable();
-  }
-
-  onVisibleChange(event, isVisible) {
-    console.log('popover visibility changes ', isVisible, event);
-    if (isVisible) {
-      this.keyDownHandlerWithEvent = this.keyDownHandler.bind(this, event);
-      window.addEventListener('keydown', this.keyDownHandlerWithEvent, false);
-    }
-    else {
-      window.removeEventListener('keydown', this.keyDownHandlerWithEvent, false);
-    }
-  }
-
-  keyDownHandler(calendarEvent, e) {
-    if (e.which === 8 || e.which === 13) {
-      window.removeTask && window.removeTask(calendarEvent);
-    }
   }
 
   render() {
@@ -184,8 +167,7 @@ class DaySlot extends React.Component {
       let { height, top, width, xOffset } = style
 
       return (
-        <Popover title={PopoverText} content={PopoverContent} trigger='click' placement='right'
-          className='my-popover' onVisibleChange={this.onVisibleChange.bind(this, event)}>
+        <PopoverWrapper event={event}>
             <div
               style={{
                 ...xStyle,
@@ -212,7 +194,7 @@ class DaySlot extends React.Component {
                 }
               </div>
             </div>
-        </Popover>
+        </PopoverWrapper>
       )
     })
   };
